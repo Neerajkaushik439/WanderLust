@@ -1,75 +1,63 @@
 <% layout('layouts/boilerplate') -%>
 <body>
-    
-    <div class="row">
-        <div class="col-8 offset-2">
-            <h3>Create a New Listing</h3>
-    <form action="/listings" method="POST" novalidate class="needs-validation">
-        
-    <div>
-        <label for="title" class="form-label">Title </label>
-        <input type="text" name="title" id="title"  class="form-control" required>
-        <div id="validationServer04Feedback" class="invalid-feedback">Please enter a title</div>
-        
+  <div class="row">
+    <div class="col-8 offset-2">
+      <h3>Create a New Listing</h3>
+      <form action="/listings" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+
+        <div>
+          <label for="title" class="form-label">Title</label>
+          <input type="text" name="listing[title]" id="title" class="form-control" required>
+          <div class="invalid-feedback">Please enter a title</div>
         </div>
-        
         <br><br>
-    <div>
 
-        <label for="description" class="form-label">Description </label>
-        <textarea type="text" name="description" id="description" class="form-control" required></textarea>
-        <div id="validationServer04Feedback" class="invalid-feedback">Please enter a short Description</div>
-        <br><br>
-    </div>
-    <div class="row">
-    <div class="col-md-4">
+        <div>
+          <label for="description" class="form-label">Description</label>
+          <textarea name="listing[description]" id="description" class="form-control" required></textarea>
+          <div class="invalid-feedback">Please enter a short description</div>
+          <br><br>
+        </div>
 
-        <label for="price" class="form-label">Price</label>
-        <input type="text" name="price" id="price" class="form-control" required>
-        <div id="validationServer04Feedback" class="invalid-feedback">Please enter a valid price</div>
-        <br><br>
-    </div>
-    <div class="col-md-8">
-
-        <label for="country" class="form-label">Country</label>
-        <input type="text" name="country" id="country" class="form-control" required>
-        <div id="validationServer04Feedback" class="invalid-feedback">Please enter Country name</div>
-        <br><br>
-    </div>
-    </div>
-    <div>
-
-        <label for="location" class="form-label">Location</label>
-        <input type="text" name="location" id="location" class="form-control"  required>
-        <div id="validationServer04Feedback" class="invalid-feedback">Please enter a valid location</div>
-        <br><br>
-    </div>
-    
-
-
-    <div class="container">
-        <p class="row1 ">Enter deatils of image</p>
         <div class="row">
-            <div class="pair1 col-md-4">
-              <label for="filename" class="form-label">Filename</label>
-              <input type="text" name="filename" id="filename" class="form-control" >
-            </div>
-            <div class="pair2 col-md-8">
-              <label for="url" class="form-label">Image url</label>
-              <input type="text" name="url" id="url"  class="form-control">
-            </div>
+          <div class="col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" name="listing[price]" id="price" class="form-control" required>
+            <div class="invalid-feedback">Please enter a valid price</div>
+            <br><br>
           </div>
+          <div class="col-md-8">
+            <label for="country" class="form-label">Country</label>
+            <input type="text" name="listing[country]" id="country" class="form-control" required>
+            <div class="invalid-feedback">Please enter a country name</div>
+            <br><br>
+          </div>
+        </div>
 
-    </div>
-    <br><br>
-    
-    
+        <div>
+          <label for="location" class="form-label">Location</label>
+          <input type="text" name="listing[location]" id="location" class="form-control" required>
+          <div class="invalid-feedback">Please enter a valid location</div>
+          <br><br>
+        </div>
+
+      
+        <div class="container">
+            <p class="row1">Enter details of image</p>
+            <div class="row">
+                <div class="pair2 col-md-12">
+                    <label for="image" class="form-label">Upload Listing Image</label>
+                    <input type="file" name="listing[image]" id="image" class="form-control" required >
+                    <!-- <div id="validationServer04Feedback" class="invalid-feedback">Please enter a valid URL</div> -->
+                </div>
+            </div>
+        </div>
+        <br><br>
 
         <button class="btn btn-custom">Submit</button>
         <br><br>
-    </form>
-    
-    
+      </form>
+    </div>
+  </div>
 </body>
-</div>
-</div>
+

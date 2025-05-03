@@ -13,15 +13,13 @@ const listingSchema=new Schema({
         type:String
     },
     image: {
-        type: {
-          filename: { type: String},
-          url: { type: String }
-        },
-        default: {
-          filename: 'listingimage',
-          url: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        }
-      },
+      url : String,
+      filename:String
+    //   type: String,
+    //   default: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    //   set:(image)=>image===""? "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" :image,
+    // 
+    },
     price:Number,
     location:String,
     country:String,
@@ -30,7 +28,23 @@ const listingSchema=new Schema({
         type:Schema.Types.ObjectId,
         ref: "Review"
       }
-    ]
+    ],
+    owner : {
+      type:Schema.Types.ObjectId,
+      ref: "user"
+
+    },
+    geometry : {
+      type: {
+        type: String, 
+        enum: ['Point'], 
+        required: true
+      },
+      coordinates: {
+        type: [Number],
+        required: true
+      }
+    }
 
 });
 
