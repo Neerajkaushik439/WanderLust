@@ -54,7 +54,7 @@
 
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <% if (currentUser) { %>
+            <% if (typeof currentUser !== 'undefined' && currentUser) { %>
               <li><a class="dropdown-item" href="/logout">Logout</a></li>
               <% } else { %>
                 <li><a class="dropdown-item" href="/login">Login</a></li>

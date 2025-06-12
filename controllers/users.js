@@ -5,6 +5,7 @@ module.exports.renderSignup= (req,res)=>{
 
 module.exports.signup = async(req,res)=>{
    console.log("aagai request");
+   
    try{
       let {username,email,password}=req.body;
       const newuser= new User({email,username});
