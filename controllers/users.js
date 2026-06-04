@@ -3,7 +3,7 @@ module.exports.renderSignup= (req,res)=>{
     res.render("users/signup");
  }
 
-module.exports.signup = async(req,res)=>{
+module.exports.signup = async(req,res,next)=>{
    console.log("aagai request");
    
    try{
@@ -11,12 +11,15 @@ module.exports.signup = async(req,res)=>{
       const newuser= new User({email,username});
       const registereduser =await  User.register(newuser,password);
       console.log(registereduser);
+      
+      let redirectUrl = req.session.redirectUrl || "/listings";
+      
       req.login(registereduser,(err)=>{
          if(err){
             return next(err);
          }
          req.flash("success","User saved successfully");
-         res.redirect("/listings");
+         res.redirect(redirectUrl);
 
       })
       
