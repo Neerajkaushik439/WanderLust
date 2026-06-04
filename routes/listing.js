@@ -16,6 +16,13 @@ const upload = multer({ storage })
 
 //index page
 router.get("/", WrapAsync(listingController.index));
+
+//no-listings page
+router.get("/no-listings", (req, res) => {
+    const { q } = req.query;
+    res.render("listings/no-listings.ejs", { q });
+});
+
 //render page for creating new listing
 router.get("/new",isLoggedIn ,listingController.renderNewForm)
 //show page

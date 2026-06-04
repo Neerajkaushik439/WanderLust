@@ -21,6 +21,11 @@ module.exports.index = async (req, res) => {
     }
 
     const alllist = await Listing.find(filter);
+    
+    if (q && alllist.length === 0) {
+        return res.redirect(`/listings/no-listings?q=${encodeURIComponent(q)}`);
+    }
+    
     res.render('listings/index.ejs', { alllist, category, q });
 };
 
