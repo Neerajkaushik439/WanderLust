@@ -14,7 +14,7 @@ router.post("/signup",WrapAsync(userController.signup))
 router.get("/login",userController.renderLogin)
 
 
-router.post('/login',saveRedirectUrl, passport.authenticate('local', { failureRedirect: '/login' , failureFlash:true }),WrapAsync(userController.login ));
+router.post('/login',saveRedirectUrl, passport.authenticate('local', { failureRedirect: '/login' , failureFlash:"Wrong credential" }),WrapAsync(userController.login ));
 
 //logout 
 router.get("/logout",userController.logout)

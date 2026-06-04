@@ -55,8 +55,20 @@ const userroute = require("./routes/user.js");
 
 const { STATUS_CODES } = require("http");
 
-app.listen(8080, () => {
-    console.log(`App is listening on port 8080`);
+const PORT = Number(process.env.PORT) || 8080;
+const server = app.listen(PORT, () => {
+    console.log(`App is listening on port ${PORT}`);
+});
+server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+        console.error(
+            `Port ${PORT} is already in use (another node app or terminal). ` +
+                `Stop that process, or set PORT in .env to a free port (e.g. 3000). ` +
+                `Find PID: netstat -ano | findstr ":${PORT}"`
+        );
+        process.exit(1);
+    }
+    throw err;
 });
 
 
@@ -73,10 +85,6 @@ async function main() {
   
 
 }
-
-
-
-//express session setup
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
@@ -128,15 +136,7 @@ app.use((req, res, next) => {
 });
 
 
-app.get("/demouser",async(req,res)=>{
-    let fakeuser= new User({
-        email: "student123@gmail.com",
-        username: "student"
-    })
 
-    let registereduser= await User.register(fakeuser,"mypassword");
-    res.send(registereduser);
-})
 
 
 

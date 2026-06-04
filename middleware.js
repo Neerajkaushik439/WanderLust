@@ -7,8 +7,16 @@ const Review =require('./models/review.js');
 module.exports.isLoggedIn= (req,res,next)=>{
     console.log(req.user)
     if(!req.isAuthenticated()){
-        
-        req.session.redirectUrl= req.originalUrl
+        if (req.method === "GET") {
+            req.session.redirectUrl = req.originalUrl;
+        } else {
+            const match = req.originalUrl.match(/^\/listings\/([a-f\d]{24})/i);
+            if (match) {
+                req.session.redirectUrl = `/listings/${match[1]}`;
+            } else {
+                req.session.redirectUrl = "/listings";
+            }
+        }
         
         req.flash("error","you must be logged-in to proceed");
         return res.redirect("/login")
