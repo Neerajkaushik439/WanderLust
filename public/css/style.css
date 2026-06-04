@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body{
    
   font-family: "Plus Jakarta Sans", serif;
@@ -62,13 +66,36 @@ body{
 .card{
     border: none;
     margin-bottom: 2rem;
+    background-color: transparent !important;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.card.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.img-container {
+    overflow: hidden;
+    border-radius: 1rem;
+    position: relative;
+    width: 100%;
+}
+
 .card-img-top{
     border-radius: 1rem;
     width: 100% !important;
     object-fit: cover !important;
     height: 20rem;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
 .card-body{
     padding: 0 !important;
     
