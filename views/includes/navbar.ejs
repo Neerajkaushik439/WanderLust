@@ -8,15 +8,28 @@
     display: inline-flex;
     align-items: center;
     border-radius: 30px;
-    padding: 0 1rem 0 1rem;
+    padding: 0.5rem 1.5rem !important;
+    background-color: #ff385c !important;
+    color: white !important;
+    font-weight: 500;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s ease, box-shadow 0.25s ease !important;
+    box-shadow: 0 4px 6px rgba(255, 56, 92, 0.15);
+  }
+
+  .search-btn:hover {
+    background-color: #e61e4d !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 56, 92, 0.3);
+  }
+
+  .search-btn:active {
+    transform: translateY(0);
   }
 
   .search-input {
     border-radius: 30px;
     padding: 0.5rem 3rem 0.5rem 3rem;
     font-size: 1rem;
-
-
   }
 
   .hover-highlight:hover {
@@ -27,7 +40,32 @@
 
   }
 
+  .navbar-nav .nav-btn, a.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 25px;
+    background-color: #ff385c !important;
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0.5rem 1.2rem !important;
+    font-weight: 500;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s ease, box-shadow 0.25s ease !important;
+    box-shadow: 0 4px 6px rgba(255, 56, 92, 0.15);
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 
+  .navbar-nav .nav-btn:hover, a.nav-btn:hover {
+    background-color: #e61e4d !important;
+    color: white !important;
+    text-decoration: none !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px rgba(255, 56, 92, 0.3);
+  }
+
+  .navbar-nav .nav-btn:active, a.nav-btn:active {
+    transform: translateY(0) !important;
+  }
 </style>
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
@@ -54,7 +92,7 @@
 
 
       <div class="navbar-nav ms-auto">
-        <a class="nav-link me-3 hover-highlight" href="/listings/new">Wanderlust your home</a>
+        <a class="me-3 nav-btn" href="/listings/new">Wanderlust your home</a>
 
         <li class="nav-item dropdown">
 
