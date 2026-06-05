@@ -1,59 +1,710 @@
 <% layout('layouts/boilerplate') -%>
+
+<!-- Load Flatpickr CSS & JS for beautiful interactive datepicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<style>
+  /* Premium Light Theme Scoping for the Listing Page */
+  body {
+    background-color: #ffffff !important;
+    color: #222222 !important;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e7e7e7 !important;
+  }
+  
+  .navbar-brand, .nav-link, .dropdown-item {
+    color: #222222 !important;
+  }
+  
+  .nav-btn {
+    background-color: #ff385c !important;
+    color: white !important;
+  }
+
+  .nav-link:hover {
+    color: #ff385c !important;
+  }
+
+  /* Scoped page containers */
+  .listing-container {
+    background-color: #ffffff;
+    padding-top: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .show-image-container {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .show-image {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .show-image-container:hover .show-image {
+    transform: scale(1.01);
+  }
+
+  .image-badge {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    color: #222222;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .show-photos-btn {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: #ffffff;
+    color: #222222;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid #dddddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .show-photos-btn:hover {
+    background: #f7f7f7;
+    transform: scale(1.03);
+  }
+
+  /* Right column booking widget */
+  .booking-card {
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+    margin-bottom: 2rem;
+  }
+
+  .price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+  }
+
+  .price-amount {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #222222;
+  }
+
+  .price-amount span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #717171;
+  }
+
+  .rating-badge {
+    font-size: 0.95rem;
+    color: #222222;
+  }
+
+  .rating-badge i {
+    color: #ff385c;
+    margin-right: 3px;
+  }
+
+  .booking-inputs {
+    border: 1px solid #b0b0b0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    background-color: #ffffff;
+  }
+
+  .date-inputs-wrapper {
+    display: flex;
+    border-bottom: 1px solid #b0b0b0;
+  }
+
+  .date-field {
+    flex: 1;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .date-field:first-child {
+    border-right: 1px solid #b0b0b0;
+  }
+
+  .field-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #222222;
+    margin-bottom: 2px;
+  }
+
+  .date-input-element {
+    background: transparent !important;
+    border: none !important;
+    color: #222222 !important;
+    font-size: 0.9rem;
+    padding: 0 !important;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .date-input-element:focus {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .guest-field {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .guest-select-element {
+    background: transparent;
+    border: none;
+    color: #222222;
+    font-size: 0.9rem;
+    width: 100%;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .guest-select-element:focus {
+    outline: none;
+  }
+
+  .guest-select-element option {
+    background-color: #ffffff;
+    color: #222222;
+  }
+
+  .reserve-btn {
+    background-color: #ff385c !important;
+    color: white !important;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 15px rgba(255, 56, 92, 0.2);
+  }
+
+  .reserve-btn:hover {
+    background-color: #e61e4d !important;
+    transform: translateY(-1px);
+  }
+
+  .reserve-btn:active {
+    transform: translateY(0);
+  }
+
+  .price-disclaimer {
+    text-align: center;
+    color: #717171;
+    font-size: 0.85rem;
+    margin-top: 0.8rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .billing-breakdown {
+    border-top: 1px solid #dddddd;
+    padding-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .billing-row {
+    display: flex;
+    justify-content: space-between;
+    color: #717171;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .billing-row.total-row {
+    border-top: 1px solid #dddddd;
+    padding-top: 0.75rem;
+    font-weight: 700;
+    color: #222222;
+    font-size: 1.15rem;
+    margin-bottom: 0;
+  }
+
+
+  /* Left column components */
+  .listing-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 0.5rem;
+  }
+
+  .listing-meta-stats {
+    font-size: 1rem;
+    color: #717171;
+    margin-bottom: 1.5rem;
+  }
+
+  .host-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    padding: 1.5rem 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .host-details-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .host-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: #f7f7f7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #ff385c;
+    border: 1px solid #dddddd;
+  }
+
+  .host-name {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #222222;
+    margin: 0;
+  }
+
+  .host-subtext {
+    font-size: 0.9rem;
+    color: #717171;
+    margin: 2px 0 0 0;
+  }
+
+  .host-chat-icon {
+    font-size: 1.25rem;
+    color: #717171;
+    border: 1px solid #dddddd;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .host-chat-icon:hover {
+    color: #222222;
+    border-color: #222222;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .listing-desc-section {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #222222;
+    margin-bottom: 2rem;
+    white-space: pre-line;
+  }
+
+  .amenities-section {
+    border-top: 1px solid #dddddd;
+    padding-top: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #222222;
+    margin-bottom: 1.25rem;
+  }
+
+  .amenity-grid-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+    color: #222222;
+  }
+
+  .amenity-grid-item i {
+    font-size: 1.25rem;
+    color: #717171;
+    width: 28px;
+    text-align: center;
+  }
+
+  /* Map Container */
+  .map-wrapper {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  #map {
+    height: 300px;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #dddddd;
+  }
+
+  /* Review components */
+  .reviews-main-section {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .review-header-rating {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #222222;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .review-header-rating i {
+    color: #ff385c;
+  }
+
+  /* Class renamed in logic to keep it simple but changed to white theme */
+  .review-card-dark {
+    background-color: #ffffff !important;
+    border: 1px solid #dddddd !important;
+    border-radius: 12px !important;
+    padding: 1.25rem !important;
+    position: relative;
+    height: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .review-author-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .review-author-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff385c;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid #dddddd;
+  }
+
+  .review-author-name {
+    font-weight: 600;
+    color: #222222;
+    margin: 0;
+  }
+
+  .review-date {
+    font-size: 0.85rem;
+    color: #717171;
+    margin: 0;
+  }
+
+  .review-comment {
+    color: #222222;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .review-form-wrapper {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .review-form-wrapper h3 {
+    font-size: 1.3rem;
+    color: #222222;
+    margin-bottom: 1rem;
+  }
+
+  .review-form-wrapper label {
+    color: #717171;
+  }
+
+  .review-form-wrapper textarea {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc !important;
+    color: #222222 !important;
+  }
+
+  .review-form-wrapper textarea:focus {
+    border-color: #ff385c !important;
+    box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.2) !important;
+  }
+
+  .admin-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .admin-buttons form {
+    margin: 0;
+  }
+
+  .admin-buttons .btn {
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+  }
+
+  .admin-buttons .btn-edit {
+    background-color: #ffffff;
+    color: #222222;
+    border: 1px solid #cccccc;
+  }
+
+  .admin-buttons .btn-edit:hover {
+    background-color: #f7f7f7;
+  }
+
+  .admin-buttons .btn-delete {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+  }
+
+  .admin-buttons .btn-delete:hover {
+    background-color: #c82333;
+  }
+
+  /* Starability overrides */
+  .starability-slot label {
+    color: #717171 !important;
+  }
+</style>
+
+<!-- Map variables -->
 <script>
-   const  mapToken = "<%=process.env.MAP_TOKEN %>"
-   const listing = <%-JSON.stringify(listing) %>
-   
+   const mapToken = "<%= process.env.MAP_TOKEN %>"
+   const listing = <%- JSON.stringify(listing) %>
 </script>
 
-<body>
-    <div class="row mt-3">
-        <div class="col-5 offset-3">
-            <h3>
-                <%= listing.title %>
-            </h3>
-            <img src="<%= listing.image.url %>" class="card-img-top show-image" alt=<%= listing.image.filename %>>
+<%
+  let totalRating = 0;
+  let avgRating = 0;
+  if(listing.reviews && listing.reviews.length > 0) {
+      listing.reviews.forEach(r => totalRating += r.rating);
+      avgRating = (totalRating / listing.reviews.length).toFixed(1);
+  }
+%>
+
+<div class="listing-container">
+  <div class="container">
+    <!-- Image banner section -->
+    <div class="show-image-container">
+      <img src="<%= listing.image.url %>" class="show-image" alt="<%= listing.image.filename %>">
+      <div class="image-badge">
+        <i class="fa-solid fa-location-dot"></i>
+        <span><%= listing.location %>, <%= listing.country %></span>
+      </div>
+      <button class="show-photos-btn" onclick="alert('Photo gallery coming soon!')">
+        <i class="fa-regular fa-image"></i>
+        <span>Show all photos</span>
+      </button>
+    </div>
+
+    <!-- Main Content & Reservation Widget -->
+    <div class="row">
+      <!-- Left Column: Details -->
+      <div class="col-lg-7 mb-4">
+        <h1 class="listing-title"><%= listing.title %></h1>
+        <div class="listing-meta-stats">
+          <span><%= listing.guests || 1 %> guests</span> &middot;
+          <span><%= listing.bedrooms || 0 %> bedrooms</span> &middot;
+          <span><%= listing.bathrooms || 0 %> bathrooms</span> &middot;
+          <span class="rating-badge">
+            <i class="fa-solid fa-star"></i>
+            <strong><%= avgRating > 0 ? avgRating : "New" %></strong> 
+            <% if (listing.reviews && listing.reviews.length > 0) { %>
+              (<%= listing.reviews.length %> reviews)
+            <% } %>
+          </span>
         </div>
-        <div class="card col-9 offset-3 show-card">
-            <div class="card-body">
-                <ul>
-                    <p>Owned by <%= listing.owner.username %></p>
 
-                    <li><%= listing.description %></li>
-
-                    <li>Price: ₹ <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></li>
-
-                    <li>Location: <%= listing.location %>, <%= listing.country %></li>
-                </ul>
+        <!-- Host Row -->
+        <div class="host-info-row">
+          <div class="host-details-group">
+            <div class="host-avatar">
+              <%= listing.owner && listing.owner.username ? listing.owner.username.charAt(0).toUpperCase() : 'O' %>
             </div>
+            <div>
+              <h3 class="host-name">Owned by <%= listing.owner && listing.owner.username ? listing.owner.username : "Owner" %></h3>
+              <p class="host-subtext">Verified Host</p>
+            </div>
+          </div>
+          <div class="host-chat-icon" title="Chat with Host" onclick="alert('Messaging system coming soon!')">
+            <i class="fa-regular fa-message"></i>
+          </div>
         </div>
-    </div>
 
-    <% if (currentUser && currentUser._id.equals(listing.owner._id)) { %>
-    <div class="buttons col-2 offset-3">
-        <form action="/listings/<%= listing._id %>/edit" method="GET">
-            <button class="btn btn-bark pr-3">Edit</button>
-        </form>
-        <br>
-        <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-bark pr-3 delete-btn">Delete</button>
-        </form>
-    </div>
-    <% } %>
+        <!-- Description -->
+        <div class="listing-desc-section">
+          <%= listing.description %>
+        </div>
 
-    <hr>
-    <% if (currentUser ) { %>
+        <!-- Amenities / Facilities -->
+        <div class="amenities-section">
+          <h3 class="section-title">What this place offers</h3>
+          <% if (listing.amenities && listing.amenities.length > 0) { %>
+            <div class="row">
+              <% listing.amenities.forEach(amenity => { %>
+                <div class="col-6 mb-2">
+                  <div class="amenity-grid-item">
+                    <% if (amenity === "Fast WiFi") { %>
+                      <i class="fa-solid fa-wifi"></i>
+                    <% } else if (amenity === "Mountain view") { %>
+                      <i class="fa-solid fa-mountain-sun"></i>
+                    <% } else if (amenity === "Free parking") { %>
+                      <i class="fa-solid fa-square-parking"></i>
+                    <% } else if (amenity === "Kitchen") { %>
+                      <i class="fa-solid fa-kitchen-set"></i>
+                    <% } else if (amenity === "Washer") { %>
+                      <i class="fa-solid fa-soap"></i>
+                    <% } else if (amenity === "AC") { %>
+                      <i class="fa-solid fa-snowflake"></i>
+                    <% } else { %>
+                      <i class="fa-solid fa-circle-check"></i>
+                    <% } %>
+                    <span><%= amenity %></span>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="text-muted">No specific amenities listed for this place.</p>
+          <% } %>
+        </div>
 
-    <div class="col-9 offset-3 mb-3">
-        <h3>Leave a Review</h3>
-        <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
-            <div class="mt-3 mb-3">
-                <!-- <label for="rating" class="form-label">
-                    Rating
-                    <input type="range" id="rating" name="review[rating]" min="1" max="5" class="form-range">
-                </label> -->
-                <label for="rating" class="form-label">Rating</label>
-                <fieldset class="starability-slot">
-                    
+        <!-- Owner Admin Tools -->
+        <% if (currentUser && listing.owner && currentUser._id.equals(listing.owner._id)) { %>
+          <div class="admin-buttons">
+            <form action="/listings/<%= listing._id %>/edit" method="GET">
+              <button class="btn btn-edit">Edit Listing</button>
+            </form>
+            <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+              <button class="btn btn-delete">Delete Listing</button>
+            </form>
+          </div>
+        <% } %>
+
+        <!-- Reviews Section -->
+        <div class="reviews-main-section">
+          <h2 class="review-header-rating">
+            <i class="fa-solid fa-star"></i>
+            <span><%= avgRating > 0 ? avgRating : "No reviews yet" %></span>
+            <% if (listing.reviews && listing.reviews.length > 0) { %>
+              &middot; <span><%= listing.reviews.length %> review<%= listing.reviews.length > 1 ? 's' : '' %></span>
+            <% } %>
+          </h2>
+
+          <% if (listing.reviews && listing.reviews.length > 0) { %>
+            <div class="row">
+              <% listing.reviews.forEach((review) => { %>
+                <div class="col-md-6 mb-3">
+                  <div class="card review-card-dark shadow-sm">
+                    <div class="card-body">
+                      <div class="review-author-group">
+                        <div class="review-author-avatar">
+                          <%= review.author && review.author.username ? review.author.username.charAt(0).toUpperCase() : 'U' %>
+                        </div>
+                        <div>
+                          <h5 class="review-author-name"><%= review.author && review.author.username ? review.author.username : "Anonymous" %></h5>
+                          <p class="review-date">
+                            <%= new Date(review.reviewDate || review.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) %>
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div class="starability-result card-text mb-2" data-rating="<%= review.rating %>"></div>
+                      <p class="review-comment"><%= review.comment %></p>
+                      
+                      <% if (currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
+                        <div class="dropdown position-absolute top-0 end-0 me-2 mt-2">
+                          <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background: transparent; color: #717171;">
+                            &#x22EE;
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>/delete?_method=DELETE" method="POST">
+                                <button class="dropdown-item text-danger" type="submit">Delete</button>
+                              </form>
+                            </li>
+                          </ul>
+                        </div>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+
+          <!-- Leave Review Form -->
+          <% if (currentUser) { %>
+            <div class="review-form-wrapper">
+              <h3>Leave a Review</h3>
+              <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+                <div class="mt-3 mb-2">
+                  <label for="rating" class="form-label">Rating</label>
+                  <fieldset class="starability-slot">
                     <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
                     <input type="radio" id="first-rate1" name="review[rating]" value="1" />
                     <label for="first-rate1" title="Terrible">1 star</label>
@@ -66,76 +717,173 @@
                     <input type="radio" id="first-rate5" name="review[rating]" value="5" />
                     <label for="first-rate5" title="Amazing">5 stars</label>
                   </fieldset>
-
-            </div>
-            
-            <div class="mt-3 mb-3">
-                <label for="comment" class="form-label">
-                    Comment
-                    <textarea name="review[comment]" id="comment" class="form-control mt-3" rows="5" cols="80" required></textarea>
-                    <div class="invalid-feedback">Please add some comment</div>
-                </label>
-            </div>
-            <div>
-                <button class="btn">Submit</button>
-            </div>
-        </form>
-    </div>
-   
-
-    <hr>
-    <% } %>
-
-    <div class="col-6 offset-3">
-       <% if(listing.reviews.length>0){ %> 
-        <h2 class="mt-4">Reviews</h2>
-        <div class="container">
-            <div class="row">
-                <% listing.reviews.forEach((review) => { %>
-                <div class="col-md-6 mb-3">
-                    <div class="card shadow p-3">
-                        <div class="card-body">
-                            <p><%= review.author.username %></p>
-                            <p class="starability-result card-text" data-rating=<%= review.rating %>>
-                            
-                            </p>
-                            <p class="card-text"><%= review.comment %></p>
-                            
-                            <% if (currentUser && currentUser._id.equals(review.author._id)) {%>
-
-                            <!-- Three-Dot Dropdown -->
-                            <div class="dropdown position-absolute top-0 end-0 me-2 mt-2">
-                                <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    &#x22EE; <!-- Three-dot icon -->
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <!-- <li>
-                                        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit?_method=PUT" method="POST">
-                                            <button class="dropdown-item " type="submit">Edit</button>
-                                        </form>
-                                    </li> -->
-                                    <li>
-                                        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>/delete?_method=DELETE" method="post">
-                                            <button class="dropdown-item text-danger" type="submit">Delete</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                            <% } %>
-                        </div>
-                    </div>
                 </div>
-                <% }) %>
+                
+                <div class="mb-3">
+                  <label for="comment" class="form-label">Comment</label>
+                  <textarea name="review[comment]" id="comment" class="form-control" rows="4" required></textarea>
+                  <div class="invalid-feedback">Please add some comment to submit a review</div>
+                </div>
+                
+                <button class="btn nav-btn">Submit</button>
+              </form>
             </div>
+          <% } %>
         </div>
-        <% } %>
-    </div>
-    <div class="col-6 offset-3">
-        <h4>Where you'll be</h4>
-        <div id="map"></div>
-        <script src="/js/map.js"></script>
-       
+      </div>
 
+      <!-- Right Column: Booking Card -->
+      <div class="col-lg-5 col-xl-4 offset-xl-1">
+        <div class="booking-card">
+          <div class="price-section">
+            <div class="price-amount">
+              ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> <span>/ night</span>
+            </div>
+            <div class="rating-badge">
+              <i class="fa-solid fa-star"></i>
+              <strong><%= avgRating > 0 ? avgRating : "New" %></strong>
+              <% if (listing.reviews && listing.reviews.length > 0) { %>
+                &middot; <%= listing.reviews.length %> reviews
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Date/Guest Inputs -->
+          <div class="booking-inputs">
+            <div class="date-inputs-wrapper">
+              <div class="date-field">
+                <div class="field-label">Check-In</div>
+                <input type="text" id="check-in" class="date-input-element" placeholder="Add date">
+              </div>
+              <div class="date-field">
+                <div class="field-label">Check-Out</div>
+                <input type="text" id="check-out" class="date-input-element" placeholder="Add date">
+              </div>
+            </div>
+            <div class="guest-field">
+              <div class="field-label">Guests</div>
+              <select id="guests-count" class="guest-select-element">
+                <% for (let i = 1; i <= (listing.guests || 1); i++) { %>
+                  <option value="<%= i %>"><%= i %> guest<%= i > 1 ? 's' : '' %></option>
+                <% } %>
+              </select>
+            </div>
+          </div>
+
+          <!-- Reserve Button -->
+          <button class="reserve-btn" onclick="alert('Booking functionality coming soon!')">Reserve</button>
+          <div class="price-disclaimer">You won't be charged yet</div>
+
+          <!-- Billing Details (Real-time update via Javascript) -->
+          <div class="billing-breakdown" id="invoice-section" style="display: none;">
+            <div class="billing-row">
+              <span id="base-rate-label">₹<%= listing.price %> x 0 nights</span>
+              <span id="accommodation-total">₹0</span>
+            </div>
+            <div class="billing-row">
+              <span>Cleaning fee</span>
+              <span id="cleaning-fee">₹300</span>
+            </div>
+            <div class="billing-row">
+              <span>Wanderlust service fee</span>
+              <span id="service-fee">₹0</span>
+            </div>
+            <div class="billing-row total-row">
+              <span>Total before taxes</span>
+              <span id="grand-total">₹0</span>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- Where you'll be Map Container -->
+        <div class="map-wrapper">
+          <h3 class="section-title">Where you'll be</h3>
+          <p class="text-muted" style="font-size: 0.95rem; margin-bottom: 0.75rem;"><%= listing.location %>, <%= listing.country %></p>
+          <div id="map"></div>
+          <script src="/js/map.js"></script>
+        </div>
+      </div>
     </div>
-    <br>
-</body>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Pricing logic setup
+    const pricePerNight = <%= listing.price || 0 %>;
+    const checkInInput = document.getElementById("check-in");
+    const checkOutInput = document.getElementById("check-out");
+    const guestsSelect = document.getElementById("guests-count");
+    const invoiceSection = document.getElementById("invoice-section");
+
+    // Initialize Flatpickr date pickers
+    const checkinPicker = flatpickr("#check-in", {
+      minDate: "today",
+      dateFormat: "Y-m-d",
+      onChange: function(selectedDates, dateStr, instance) {
+        checkoutPicker.set("minDate", dateStr);
+        calculateBilling();
+      }
+    });
+
+    const checkoutPicker = flatpickr("#check-out", {
+      minDate: "today",
+      dateFormat: "Y-m-d",
+      onChange: function(selectedDates, dateStr, instance) {
+        calculateBilling();
+      }
+    });
+
+    guestsSelect.addEventListener("change", calculateBilling);
+
+    function calculateBilling() {
+      const checkinDateStr = checkInInput.value;
+      const checkoutDateStr = checkOutInput.value;
+
+      if (checkinDateStr && checkoutDateStr) {
+        const checkinDate = new Date(checkinDateStr);
+        const checkoutDate = new Date(checkoutDateStr);
+        
+        // Calculate nights difference
+        const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+        const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        if (nights > 0) {
+          const guests = parseInt(guestsSelect.value) || 1;
+          
+          // Extra guest charge: ₹200/night for each guest over 1
+          const extraGuestCharge = guests > 1 ? (guests - 1) * 200 : 0;
+          const currentNightRate = pricePerNight + extraGuestCharge;
+          
+          // Total base rate
+          const accommodationTotal = currentNightRate * nights;
+          
+          // Cleaning fee: 10% of total accommodation cost (capped between ₹300 and ₹1500)
+          let cleaningFee = Math.round(accommodationTotal * 0.1);
+          if (cleaningFee < 300) cleaningFee = 300;
+          if (cleaningFee > 1500) cleaningFee = 1500;
+
+          // Service fee: 5% of accommodation cost
+          const serviceFee = Math.round(accommodationTotal * 0.05);
+
+          const grandTotal = accommodationTotal + cleaningFee + serviceFee;
+
+          // Update breakdown text content
+          document.getElementById("base-rate-label").innerText = `₹${currentNightRate.toLocaleString("en-IN")} x ${nights} night${nights > 1 ? 's' : ''}`;
+          document.getElementById("accommodation-total").innerText = `₹${accommodationTotal.toLocaleString("en-IN")}`;
+          document.getElementById("cleaning-fee").innerText = `₹${cleaningFee.toLocaleString("en-IN")}`;
+          document.getElementById("service-fee").innerText = `₹${serviceFee.toLocaleString("en-IN")}`;
+          document.getElementById("grand-total").innerText = `₹${grandTotal.toLocaleString("en-IN")}`;
+
+          invoiceSection.style.display = "block";
+        } else {
+          invoiceSection.style.display = "none";
+        }
+      } else {
+        invoiceSection.style.display = "none";
+      }
+    }
+  });
+</script>

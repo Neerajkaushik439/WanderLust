@@ -63,6 +63,9 @@ module.exports.createListing= async(req,res,next)=>{
     let filename = req.file.filename;
     
    
+    if (!req.body.listing.amenities) {
+        req.body.listing.amenities = [];
+    }
     const newListing= new Listing(req.body.listing);
     newListing.owner=req.user._id;
     newListing.image= { url,filename};
@@ -91,6 +94,9 @@ module.exports.updateListing  = async(req, res) => {
     
     let listing = await Listing.findById(id);
     
+    if (!req.body.listing.amenities) {
+        req.body.listing.amenities = [];
+    }
     const updatedListing = await Listing.findByIdAndUpdate(
         id,
         { ...req.body.listing },

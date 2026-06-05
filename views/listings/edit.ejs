@@ -37,6 +37,70 @@
                     <br><br>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="guests" class="form-label">Max Guests</label>
+                        <input type="number" name="listing[guests]" id="guests" class="form-control" min="1" value="<%= list.guests %>" required>
+                        <div class="invalid-feedback">Please enter guest capacity</div>
+                        <br><br>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="bedrooms" class="form-label">Bedrooms</label>
+                        <input type="number" name="listing[bedrooms]" id="bedrooms" class="form-control" min="0" value="<%= list.bedrooms %>" required>
+                        <div class="invalid-feedback">Please enter number of bedrooms</div>
+                        <br><br>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="bathrooms" class="form-label">Bathrooms</label>
+                        <input type="number" name="listing[bathrooms]" id="bathrooms" class="form-control" min="0" value="<%= list.bathrooms %>" required>
+                        <div class="invalid-feedback">Please enter number of bathrooms</div>
+                        <br><br>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label">Facilities / Amenities</label>
+                    <div class="row">
+                        <div class="col-6 col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="listing[amenities]" value="Fast WiFi" id="amenity-wifi" <%= list.amenities && list.amenities.includes("Fast WiFi") ? "checked" : "" %>>
+                                <label class="form-check-label" for="amenity-wifi">Fast WiFi</label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="listing[amenities]" value="Mountain view" id="amenity-view" <%= list.amenities && list.amenities.includes("Mountain view") ? "checked" : "" %>>
+                                <label class="form-check-label" for="amenity-view">Mountain view</label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="listing[amenities]" value="Free parking" id="amenity-parking" <%= list.amenities && list.amenities.includes("Free parking") ? "checked" : "" %>>
+                                <label class="form-check-label" for="amenity-parking">Free parking</label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="listing[amenities]" value="Kitchen" id="amenity-kitchen" <%= list.amenities && list.amenities.includes("Kitchen") ? "checked" : "" %>>
+                                <label class="form-check-label" for="amenity-kitchen">Kitchen</label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="listing[amenities]" value="Washer" id="amenity-washer" <%= list.amenities && list.amenities.includes("Washer") ? "checked" : "" %>>
+                                <label class="form-check-label" for="amenity-washer">Washer</label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="listing[amenities]" value="AC" id="amenity-ac" <%= list.amenities && list.amenities.includes("AC") ? "checked" : "" %>>
+                                <label class="form-check-label" for="amenity-ac">AC</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+
                 <div class="container">
                     <!-- <p class="row1">About Image-</p> -->
                      <img src=<%= list.image.url %> alt=<%= list.image.filename %>  width="220" height="160">
