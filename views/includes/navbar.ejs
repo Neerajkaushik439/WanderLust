@@ -26,10 +26,69 @@
     transform: translateY(0);
   }
 
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
   .search-input {
     border-radius: 30px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
+    padding: 0.5rem 3.25rem 0.5rem 1.5rem;
     font-size: 1rem;
+    width: 250px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .search-input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.2);
+    border-color: #ff385c;
+  }
+
+  /* Hide default WebKit search clear button */
+  .search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    display: none;
+  }
+
+  .clear-search-btn {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%) scale(0.9);
+    background: none;
+    border: none;
+    padding: 0;
+    color: #222222;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity: 0.7;
+  }
+
+  .search-input:not(:placeholder-shown) ~ .clear-search-btn {
+    display: flex;
+  }
+
+  .clear-search-btn:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #000000;
+    opacity: 1;
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .clear-search-btn:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .clear-search-btn i {
+    font-size: 0.85rem;
+    font-weight: 900;
   }
 
   .hover-highlight:hover {
@@ -81,9 +140,14 @@
 
       </div>
       <div class="navbar-nav ms-auto" id="searchbox">
-        <form class="d-flex" role="search" action="/listings" method="GET">
-          <input class="form-control me-2 search-input" type="search" name="q" placeholder="Search destination"
-            value="<%= typeof q !== 'undefined' ? q : '' %>" aria-label="Search" />
+        <form class="d-flex align-items-center" role="search" action="/listings" method="GET">
+          <div class="search-wrapper me-2">
+            <input class="form-control search-input" type="search" id="search-input" name="q" placeholder="Search destination"
+              value="<%= typeof q !== 'undefined' ? q : '' %>" aria-label="Search" />
+            <button type="button" class="clear-search-btn" id="clear-search" aria-label="Clear search">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
           <button class="btn search-btn" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i> Search
           </button>

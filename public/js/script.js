@@ -40,4 +40,19 @@
             });
         }
     });
+
+    // Search input clear functionality
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("search-input");
+        const clearBtn = document.getElementById("clear-search");
+
+        if (searchInput && clearBtn) {
+            clearBtn.addEventListener("click", () => {
+                searchInput.value = "";
+                searchInput.focus();
+                // Trigger input event to update state and trigger css :placeholder-shown styling
+                searchInput.dispatchEvent(new Event("input"));
+            });
+        }
+    });
   })()
