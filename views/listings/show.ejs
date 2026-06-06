@@ -420,6 +420,13 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
+  .review-card-dark:hover,
+  .review-card-dark:focus-within,
+  .review-card-dark:has(.show),
+  .review-card-dark:has([aria-expanded="true"]) {
+    z-index: 10 !important;
+  }
+
   .review-author-group {
     display: flex;
     align-items: center;
