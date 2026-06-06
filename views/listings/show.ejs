@@ -315,25 +315,6 @@
     margin: 2px 0 0 0;
   }
 
-  .host-chat-icon {
-    font-size: 1.25rem;
-    color: #717171;
-    border: 1px solid #dddddd;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .host-chat-icon:hover {
-    color: #222222;
-    border-color: #222222;
-    background-color: rgba(0, 0, 0, 0.05);
-  }
 
   .listing-desc-section {
     font-size: 1.05rem;
@@ -637,9 +618,6 @@
               <h3 class="host-name">Owned by <%= listing.owner && listing.owner.username ? listing.owner.username : "Owner" %></h3>
               <p class="host-subtext">Verified Host</p>
             </div>
-          </div>
-          <div class="host-chat-icon" title="Chat with Host" onclick="alert('Messaging system coming soon!')">
-            <i class="fa-regular fa-message"></i>
           </div>
         </div>
 
