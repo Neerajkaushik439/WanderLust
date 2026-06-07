@@ -42,6 +42,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.join(__dirname,"/public")));
 const passport= require("passport");
 const localStrategy = require("passport-local");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/user.js");
 
 
@@ -121,6 +122,45 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new localStrategy(User.authenticate()));
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.NODE_ENV === "production" 
+        ? "https://wanderlust-olh9.onrender.com/auth/google/callback" 
+        : "http://localhost:8080/auth/google/callback"
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      let user = await User.findOne({ googleId: profile.id });
+      if (!user) {
+        user = await User.findOne({ email: profile.emails[0].value });
+        if (user) {
+          user.googleId = profile.id;
+          await user.save();
+        } else {
+          let baseUsername = profile.displayName.replace(/\s+/g, '').toLowerCase();
+          let username = baseUsername;
+          let userExists = await User.findOne({ username });
+          while (userExists) {
+            username = baseUsername + Math.floor(Math.random() * 1000);
+            userExists = await User.findOne({ username });
+          }
+          user = new User({
+            username: username,
+            email: profile.emails[0].value,
+            googleId: profile.id
+          });
+          await user.save();
+        }
+      }
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
+  }
+));
+
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

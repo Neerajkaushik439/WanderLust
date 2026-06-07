@@ -1,42 +1,43 @@
 <% layout('layouts/boilerplate') -%>
-<h2 class="col-6 offset-2">Signup on WanderLust</h2>
-<style>
-    .login b a{
-        text-decoration: none;
-        color: #ff385c;
 
-    }
+<div class="row justify-content-center mt-5 mb-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="auth-card">
+            <h2 class="auth-title text-center">Signup on WanderLust</h2>
+            
+            <form action="/signup" method="POST" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" id="username" required class="form-control auth-input" placeholder="Choose a username">
+                    <div class="invalid-feedback">Please choose a username.</div>
+                </div>
 
-</style>
-
-<div class="row">
-    <div class="col-6 offset-3">
-        <form action="/signup" method="POST" class="needs-validation" novalidate>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username:</label>
-                <input type="text" name="username" id="username" required class="form-control">
-                <div class="valid-feedback">Looks good!</div>
-
-
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="text" name="email" id="email" required class="form-control">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="email" required class="form-control auth-input" placeholder="Enter email address">
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                </div>
                
-
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" id="password" required class="form-control auth-input" placeholder="Create a password">
+                    <div class="invalid-feedback">Please choose a password.</div>
+                </div>
                 
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password:</label>
-                <input type="password" name="password" id="password" required class="form-control">
-                
-            </div>
-            <div class="mb-3">
-                <button class="btn btn-success">Signup</button>
-                 <br><br>
-                <p class="login"><b>Already have an account? <a href="/login">Login</a></b></p>
-            </div>
-        </form>
+                <button class="btn w-100 btn-auth-primary mb-3">Signup</button>
+            </form>
 
+            <div class="auth-divider">
+                <span>OR</span>
+            </div>
+
+            <a href="/auth/google" class="btn w-100 btn-auth-google mb-4">
+                <i class="fa-brands fa-google google-icon"></i> Continue with Google
+            </a>
+
+            <p class="auth-footer text-center mb-0">
+                Already have an account? <b><a href="/login">Login</a></b>
+            </p>
+        </div>
     </div>
-</div>
+</div>

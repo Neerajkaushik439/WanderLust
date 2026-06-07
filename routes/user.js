@@ -16,7 +16,17 @@ router.get("/login",userController.renderLogin)
 
 router.post('/login',saveRedirectUrl, passport.authenticate('local', { failureRedirect: '/login' , failureFlash:"Wrong credential" }),WrapAsync(userController.login ));
 
+// Google Auth routes
+router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+router.get("/auth/google/callback",
+  saveRedirectUrl,
+  passport.authenticate("google", { failureRedirect: "/login", failureFlash: "Google sign-in failed." }),
+  WrapAsync(userController.googleLoginCallback)
+);
+
 //logout 
 router.get("/logout",userController.logout)
+
 
 module.exports=router;

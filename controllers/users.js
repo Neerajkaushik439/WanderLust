@@ -45,6 +45,12 @@ module.exports.login = async (req, res) => {
   res.redirect(res.locals.redirectUrl ||"/listings")
 }
 
+module.exports.googleLoginCallback = async (req, res) => {
+  req.flash("success", "Welcome back! Logged in with Google successfully.");
+  res.redirect(res.locals.redirectUrl || "/listings");
+}
+
+
 
 module.exports.logout = (req,res,next)=>{
     req.logout((err)=>{
