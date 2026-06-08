@@ -12,7 +12,8 @@ module.exports.listingschema = Joi.object({
   guests: Joi.number().integer().min(1).required(),
   bedrooms: Joi.number().integer().min(0).required(),
   bathrooms: Joi.number().integer().min(0).required(),
-  amenities: Joi.array().items(Joi.string()).single().optional()
+  amenities: Joi.array().items(Joi.string()).single().optional(),
+  category: Joi.string().valid("Trending","Room", "Iconic cities","Mountains","Beach","Castles","Farm","Camping", "Arctic").required()
 }).required();
 
 

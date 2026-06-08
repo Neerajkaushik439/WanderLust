@@ -10,6 +10,26 @@
                     <div class="invalid-feedback">Please enter a title</div>
                 </div>
                 <br><br>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="category" class="form-label">Category</label>
+                        <select name="listing[category]" id="category" class="form-select" required>
+                            <option value="" disabled <%= !list.category ? "selected" : "" %>>Select a Category</option>
+                            <option value="Trending" <%= list.category === "Trending" ? "selected" : "" %>>Trending</option>
+                            <option value="Room" <%= list.category === "Room" ? "selected" : "" %>>Room</option>
+                            <option value="Iconic cities" <%= list.category === "Iconic cities" ? "selected" : "" %>>Iconic cities</option>
+                            <option value="Mountains" <%= list.category === "Mountains" ? "selected" : "" %>>Mountains</option>
+                            <option value="Beach" <%= list.category === "Beach" ? "selected" : "" %>>Beach</option>
+                            <option value="Castles" <%= list.category === "Castles" ? "selected" : "" %>>Castles</option>
+                            <option value="Farm" <%= list.category === "Farm" ? "selected" : "" %>>Farm</option>
+                            <option value="Camping" <%= list.category === "Camping" ? "selected" : "" %>>Camping</option>
+                            <option value="Arctic" <%= list.category === "Arctic" ? "selected" : "" %>>Arctic</option>
+                        </select>
+                        <div class="invalid-feedback">Please select a category</div>
+                    </div>
+                </div>
+                <br><br>
                 <div>
                     <label for="description" class="form-label">Description </label>
                     <textarea name="listing[description]" id="description" class="form-control" required><%= list.description %></textarea>

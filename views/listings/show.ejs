@@ -589,6 +589,13 @@
       <!-- Left Column: Details -->
       <div class="col-lg-7 mb-4">
         <h1 class="listing-title"><%= listing.title %></h1>
+        <% if (listing.category) { %>
+          <div class="mb-3">
+            <span class="badge rounded-pill text-white px-3 py-2" style="background-color: #ff385c; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px;">
+              <i class="fa-solid fa-tag me-1"></i><%= listing.category.toUpperCase() %>
+            </span>
+          </div>
+        <% } %>
         <div class="listing-meta-stats">
           <span><%= listing.guests || 1 %> guests</span> &middot;
           <span><%= listing.bedrooms || 0 %> bedrooms</span> &middot;
