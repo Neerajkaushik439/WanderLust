@@ -307,13 +307,13 @@ body{
   justify-content: space-between;
 }
 .navbar-mobile {
-  display: none !important;
+  display: none;
 }
 .mobile-menu-backdrop {
-  display: none !important;
+  display: none;
 }
 .mobile-dropdown-menu {
-  display: none !important;
+  display: none;
 }
 
 /* Mobile responsive override (width <= 810px) */
@@ -532,7 +532,7 @@ body{
 }
 
 .mobile-dropdown-menu.show {
-  display: block;
+  display: block !important;
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
@@ -653,7 +653,7 @@ body{
 }
 
 .mobile-menu-backdrop.show {
-  display: block;
+  display: block !important;
   opacity: 1;
   pointer-events: auto;
 }
