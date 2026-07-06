@@ -34,9 +34,12 @@ module.exports.signup = async(req,res,next)=>{
 } 
 
 
-module.exports.renderLogin= (req,res)=>{
-    res.render("users/login")
- }
+module.exports.renderLogin = (req, res) => {
+    if (req.query.redirectUrl) {
+        req.session.redirectUrl = req.query.redirectUrl;
+    }
+    res.render("users/login");
+}
 
 
 module.exports.login = async (req, res) => {
