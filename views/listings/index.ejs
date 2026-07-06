@@ -159,32 +159,47 @@
 
   </body>
   <script>
-    let taxswitch = document.getElementById("switchCheckDefault");
-    taxswitch.addEventListener("click",()=>{
-      let taxInfo= document.getElementsByClassName("tax-info")
-      for(info of taxInfo){
-        if(info.style.display!="inline"){
-          info.style.display="inline"
-        }else{
-          info.style.display="none"
-        }
+    function updateTaxes(checked) {
+      let taxInfo = document.getElementsByClassName("tax-info");
+      for (let info of taxInfo) {
+        info.style.display = checked ? "inline" : "none";
       }
+      
+      let desktopSwitch = document.getElementById("switchCheckDefault");
+      let mobileSwitch = document.getElementById("mobileTaxSwitch");
+      if (desktopSwitch) desktopSwitch.checked = checked;
+      if (mobileSwitch) mobileSwitch.checked = checked;
+    }
 
-    })
+    let taxswitch = document.getElementById("switchCheckDefault");
+    if (taxswitch) {
+      taxswitch.addEventListener("change", (e) => {
+        updateTaxes(e.target.checked);
+      });
+    }
+
+    // Add support for the mobile tax toggle switch
+    let mobileTaxSwitch = document.getElementById("mobileTaxSwitch");
+    if (mobileTaxSwitch) {
+      mobileTaxSwitch.addEventListener("change", (e) => {
+        updateTaxes(e.target.checked);
+      });
+    }
 
     function updateTextOnResize() {
-    const element = document.getElementById('switchtext');
-    if (window.innerWidth < 995) {
-      element.innerText = 'Taxes';
-    } else {
-      element.innerText = 'Display with taxes';
+      const element = document.getElementById('switchtext');
+      if (element) {
+        if (window.innerWidth < 995) {
+          element.innerText = 'Taxes';
+        } else {
+          element.innerText = 'Display with taxes';
+        }
+      }
     }
-  }
 
-  // Run on page load
-  updateTextOnResize();
+    // Run on page load
+    updateTextOnResize();
 
-  // Run whenever window is resized
-  window.addEventListener('resize', updateTextOnResize);
-
+    // Run whenever window is resized
+    window.addEventListener('resize', updateTextOnResize);
   </script>

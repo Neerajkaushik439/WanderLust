@@ -126,54 +126,221 @@
     transform: translateY(0) !important;
   }
 </style>
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="navbar border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-
+    
+    <!-- DESKTOP NAVBAR (Visible > 810px) -->
+    <div class="navbar-desktop">
+      <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+      
+      <div class="navbar-nav flex-row align-items-center gap-3">
         <a class="nav-link" href="/listings">Explore</a>
-
-
       </div>
-      <div class="navbar-nav ms-auto" id="searchbox">
+
+      <div class="navbar-nav" id="searchbox">
         <form class="d-flex align-items-center" role="search" action="/listings" method="GET">
-          <div class="search-wrapper me-2">
+          <div class="search-wrapper">
             <input class="form-control search-input" type="search" id="search-input" name="q" placeholder="Search destination"
               value="<%= typeof q !== 'undefined' ? q : '' %>" aria-label="Search" />
             <button type="button" class="clear-search-btn" id="clear-search" aria-label="Clear search">
               <i class="fa-solid fa-xmark"></i>
             </button>
+            <button class="search-icon-btn" type="submit">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
           </div>
-          <button class="btn search-btn" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i> Search
-          </button>
         </form>
       </div>
 
+      <div class="navbar-nav flex-row align-items-center gap-3">
+        <a class="nav-btn me-2" href="/listings/new">Wanderlust your home</a>
 
-      <div class="navbar-nav ms-auto">
-        <a class="me-3 nav-btn" href="/listings/new">Wanderlust your home</a>
-
-        <li class="nav-item dropdown">
-
-          <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown">
+        <li class="nav-item dropdown list-unstyled">
+          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-user fa-lg"></i>
-
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <% if (typeof currentUser !=='undefined' && currentUser) { %>
+            <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+              <li><span class="dropdown-item-text text-muted">Hello, <%= currentUser.username %></span></li>
+              <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="/logout">Logout</a></li>
-              <% } else { %>
-                <li><a class="dropdown-item" href="/login">Login</a></li>
-                <li><a class="dropdown-item" href="/signup">Signup</a></li>
-                <% } %>
-
-
+            <% } else { %>
+              <li><a class="dropdown-item" href="/login">Login</a></li>
+              <li><a class="dropdown-item" href="/signup">Signup</a></li>
+            <% } %>
+          </ul>
+        </li>
       </div>
     </div>
+
+    <!-- MOBILE NAVBAR (Visible <= 810px) -->
+    <div class="navbar-mobile">
+      <!-- Brand Compass Icon -->
+      <a class="navbar-brand-mobile" href="/listings">
+        <i class="fa-regular fa-compass"></i>
+      </a>
+
+      <!-- Search Input (Icon only search) -->
+      <form class="mobile-search-form" role="search" action="/listings" method="GET">
+        <div class="mobile-search-wrapper">
+          <input class="form-control mobile-search-input" type="search" id="mobile-search-input" name="q" placeholder="Search destination"
+            value="<%= typeof q !== 'undefined' ? q : '' %>" aria-label="Search" />
+          <button class="mobile-search-icon-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Action Icons (Profile & Hamburger) -->
+      <div class="mobile-actions">
+        <!-- User Profile Trigger -->
+        <button type="button" class="mobile-action-btn" id="mobile-profile-trigger" aria-label="Toggle profile menu">
+          <i class="fa-solid fa-user"></i>
+        </button>
+
+        <!-- Hamburger / Categories Trigger -->
+        <button type="button" class="mobile-action-btn" id="mobile-hamburger-trigger" aria-label="Toggle categories menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- MOBILE OVERLAYS -->
+    <!-- Profile Menu Dropdown -->
+    <div class="mobile-dropdown-menu" id="mobile-profile-menu">
+      <div class="mobile-menu-content p-3">
+        <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+          <div class="px-2 py-1 mb-2 text-muted fw-semibold" style="font-size: 0.9rem;">
+            Logged in as <%= currentUser.username %>
+          </div>
+          <a class="mobile-menu-link" href="/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</a>
+        <% } else { %>
+          <a class="mobile-menu-link" href="/login"><i class="fa-solid fa-right-to-bracket me-2"></i>Login</a>
+          <a class="mobile-menu-link" href="/signup"><i class="fa-solid fa-user-plus me-2"></i>Signup</a>
+        <% } %>
+        <hr class="my-2">
+        <a class="mobile-menu-btn-primary mt-2" href="/listings/new">
+          <i class="fa-solid fa-house me-2"></i>Wanderlust your home
+        </a>
+      </div>
+    </div>
+
+    <!-- Categories & Tax Switch Menu Dropdown -->
+    <div class="mobile-dropdown-menu" id="mobile-categories-menu">
+      <div class="mobile-menu-content p-3">
+        <h6 class="mb-3 text-uppercase text-muted fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Categories</h6>
+        <div class="mobile-categories-grid">
+          <a href="/listings?category=Trending" class="mobile-category-item">
+            <i class="fa-solid fa-fire"></i>
+            <span>Trending</span>
+          </a>
+          <a href="/listings?category=Room" class="mobile-category-item">
+            <i class="fa-solid fa-bed"></i>
+            <span>Room</span>
+          </a>
+          <a href="/listings?category=Iconic cities" class="mobile-category-item">
+            <i class="fa-solid fa-mountain-city"></i>
+            <span>Cities</span>
+          </a>
+          <a href="/listings?category=Mountains" class="mobile-category-item">
+            <i class="fa-solid fa-mountain"></i>
+            <span>Mountains</span>
+          </a>
+          <a href="/listings?category=Beach" class="mobile-category-item">
+            <i class="fa-solid fa-umbrella-beach"></i>
+            <span>Beach</span>
+          </a>
+          <a href="/listings?category=Castles" class="mobile-category-item">
+            <i class="fa-brands fa-fort-awesome"></i>
+            <span>Castles</span>
+          </a>
+          <a href="/listings?category=Farm" class="mobile-category-item">
+            <i class="fa-solid fa-tractor"></i>
+            <span>Farm</span>
+          </a>
+          <a href="/listings?category=Camping" class="mobile-category-item">
+            <i class="fa-solid fa-campground"></i>
+            <span>Camping</span>
+          </a>
+          <a href="/listings?category=Arctic" class="mobile-category-item">
+            <i class="fa-regular fa-snowflake"></i>
+            <span>Arctic</span>
+          </a>
+        </div>
+        <hr class="my-3">
+        <div class="mobile-tax-toggle-wrapper d-flex justify-content-between align-items-center">
+          <span class="fw-semibold text-dark" style="font-size: 0.9rem;">Display with taxes</span>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input" type="checkbox" role="switch" id="mobileTaxSwitch" style="cursor: pointer; width: 2.5em; height: 1.25em;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Backdrop overlay for blurring page content below -->
+    <div class="mobile-menu-backdrop" id="mobile-menu-backdrop"></div>
+
   </div>
 </nav>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const profileTrigger = document.getElementById("mobile-profile-trigger");
+    const hamburgerTrigger = document.getElementById("mobile-hamburger-trigger");
+    const profileMenu = document.getElementById("mobile-profile-menu");
+    const categoriesMenu = document.getElementById("mobile-categories-menu");
+    const backdrop = document.getElementById("mobile-menu-backdrop");
+
+    // Elements to blur when mobile menu is active
+    const elementsToBlur = document.querySelectorAll(".container, footer");
+
+    function closeAllMobileMenus() {
+      if (profileMenu) profileMenu.classList.remove("show");
+      if (categoriesMenu) categoriesMenu.classList.remove("show");
+      if (backdrop) backdrop.classList.remove("show");
+      elementsToBlur.forEach(el => el.classList.remove("blur-content-active"));
+    }
+
+    function toggleMobileMenu(menuToOpen, menuToClose) {
+      if (menuToClose && menuToClose.classList.contains("show")) {
+        menuToClose.classList.remove("show");
+      }
+      
+      const isOpen = menuToOpen.classList.toggle("show");
+      if (isOpen) {
+        if (backdrop) backdrop.classList.add("show");
+        elementsToBlur.forEach(el => el.classList.add("blur-content-active"));
+      } else {
+        if (backdrop) backdrop.classList.remove("show");
+        elementsToBlur.forEach(el => el.classList.remove("blur-content-active"));
+      }
+    }
+
+    if (profileTrigger && profileMenu) {
+      profileTrigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMenu(profileMenu, categoriesMenu);
+      });
+    }
+
+    if (hamburgerTrigger && categoriesMenu) {
+      hamburgerTrigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMenu(categoriesMenu, profileMenu);
+      });
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener("click", () => {
+        closeAllMobileMenus();
+      });
+    }
+
+    // Automatically close mobile menus and remove blur if screen is resized beyond mobile breakpoint
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 810) {
+        closeAllMobileMenus();
+      }
+    });
+  });
+</script>
