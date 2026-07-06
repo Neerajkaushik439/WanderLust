@@ -299,25 +299,24 @@ body{
     text-decoration: underline;
 }
 
-/* Custom Breakpoint and Responsiveness for Navbar (810px) */
-@media (min-width: 811px) {
-  .navbar-desktop {
-    display: flex !important;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .navbar-mobile {
-    display: none !important;
-  }
-  .mobile-menu-backdrop {
-    display: none !important;
-  }
-  .mobile-dropdown-menu {
-    display: none !important;
-  }
+/* Default Desktop Navbar Layout (width > 810px) */
+.navbar-desktop {
+  display: flex !important;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar-mobile {
+  display: none !important;
+}
+.mobile-menu-backdrop {
+  display: none !important;
+}
+.mobile-dropdown-menu {
+  display: none !important;
 }
 
+/* Mobile responsive override (width <= 810px) */
 @media (max-width: 810px) {
   .navbar-desktop {
     display: none !important;
