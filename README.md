@@ -2,7 +2,7 @@
 
 **WanderLust** is a full-stack MERN (MongoDB, Express, React (or HTML/CSS/JS), Node.js) web application inspired by platforms like Airbnb. It allows users to list, explore, and manage vacation rental properties with a clean and responsive user interface.
 
-## 🔗 Live Demo
+## 🔗 LiveDemo
 
 👉 https://wanderlust-olh9.onrender.com/listings
 
