@@ -96,9 +96,9 @@ const store = MongoStore.create({
 
 })
 
-store.on("error",()=>{
-    console.log("error in mongo session store"+ err)
-})
+store.on("error", (err) => {
+    console.log("error in mongo session store: ", err);
+});
 
 const sessionOpts={
     store,

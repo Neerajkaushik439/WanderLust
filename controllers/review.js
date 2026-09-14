@@ -12,14 +12,11 @@ module.exports.postReview= async(req,res)=>{
     await listing.save();
     req.flash("success","Review Saved");
     res.redirect(`/listings/${listing.id}`)
-    
 
 }
 
 module.exports.deleteReview= async (req, res) => {
     
-    
-
         let { id, reviewId } = req.params;
 
         await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
