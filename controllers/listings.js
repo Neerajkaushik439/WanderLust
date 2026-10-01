@@ -4,23 +4,22 @@ const mapToken = process.env.MAP_TOKEN;
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-const buildListingFilter = (category, q) => {
+module.exports.index = async (req, res) => {
+    const { category, q } = req.query;
+
     let filter = {};
+
     if (category) {
         filter.category = category;
     }
+
     if (q) {
         filter.$or = [
             { title: { $regex: q, $options: 'i' } },
             { location: { $regex: q, $options: 'i' } }
         ];
     }
-    return filter;
-};
 
-module.exports.index = async (req, res) => {
-    const { category, q } = req.query;
-    const filter = buildListingFilter(category, q);
     const alllist = await Listing.find(filter);
     
     if (q && alllist.length === 0) {
