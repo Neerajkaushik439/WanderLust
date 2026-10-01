@@ -31,32 +31,33 @@ module.exports.saveRedirectUrl= (req,res,next)=>{
     next()
 }
 
-module.exports.validatelisting= (req,res,next)=>{
+const formatValidationError = (error) => {
+    return error.details.map((el) => el.message).join(",");
+};
+
+module.exports.validatelisting = (req, res, next) => {
     console.log(req.body);
-    const {error} = listingschema.validate(req.body.listing);
+    const { error } = listingschema.validate(req.body.listing);
     
-    if(error){
-        let errmsg=error.details.map((el)=>el.message).join(",")
-        throw new expresserror(500,errmsg)
-    }else{
+    if (error) {
+        let errmsg = formatValidationError(error);
+        throw new expresserror(500, errmsg);
+    } else {
         next();
     }
+};
 
-}
-
-
-module.exports.validatereview= (req,res,next)=>{
+module.exports.validatereview = (req, res, next) => {
     console.log(req.body);
-    const {error} =reviewschema.validate(req.body);
+    const { error } = reviewschema.validate(req.body);
     
-    if(error){
-        let errmsg=error.details.map((el)=>el.message).join(",")
-        throw new expresserror(500,errmsg)
-    }else{
+    if (error) {
+        let errmsg = formatValidationError(error);
+        throw new expresserror(500, errmsg);
+    } else {
         next();
     }
-
-}
+};
 
 
 module.exports.isOwner = async(req,res,next)=>{
