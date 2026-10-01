@@ -14,8 +14,9 @@ const upload = multer({ storage })
 
 
 
-//index page
-router.get("/", WrapAsync(listingController.index));
+router.route("/")
+    .get(WrapAsync(listingController.index))
+    .post(isLoggedIn, upload.single('listing[image]'), validatelisting, WrapAsync(listingController.createListing));
 
 //no-listings page
 router.get("/no-listings", (req, res) => {
@@ -24,26 +25,15 @@ router.get("/no-listings", (req, res) => {
 });
 
 //render page for creating new listing
-router.get("/new",isLoggedIn ,listingController.renderNewForm)
-//show page
-router.get("/:id",WrapAsync(listingController.showListing))
-
-
-//create new listing
-
-router.post("/", isLoggedIn , upload.single('listing[image]'),  validatelisting ,WrapAsync( listingController.createListing))
-
+router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 //edit listing
-router.get("/:id/edit",isLoggedIn,isOwner, WrapAsync(listingController.renderEditForm))
+router.get("/:id/edit", isLoggedIn, isOwner, WrapAsync(listingController.renderEditForm));
 
-
-
-// Update  listing 
-router.put("/:id",isLoggedIn, isOwner ,upload.single('listing[image]'),validatelisting, WrapAsync( listingController.updateListing))
-
-//delete listing 
-router.delete("/:id",isLoggedIn,isOwner, WrapAsync(listingController.deleteListing))
+router.route("/:id")
+    .get(WrapAsync(listingController.showListing))
+    .put(isLoggedIn, isOwner, upload.single('listing[image]'), validatelisting, WrapAsync(listingController.updateListing))
+    .delete(isLoggedIn, isOwner, WrapAsync(listingController.deleteListing));
 
 
 
